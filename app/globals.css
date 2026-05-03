@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fee685;
+  --foreground: #1b1b1a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-kaku: var(--font-kaku);
+  --font-syne: var(--font-syne);
+  --font-neulis: var(--font-neulis);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #fee685;
+    --foreground: #1b1b1a;
+  }
+}
+
+::selection {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* For older Firefox browsers */
+::-moz-selection {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+@utility max-w-container {
+  @apply px-2 max-w-400 mx-auto sm:px-4 overflow-hidden;
+}
+
+@utility section-title {
+  @apply text-4xl md:text-5xl;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
