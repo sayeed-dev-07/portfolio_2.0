@@ -144,7 +144,7 @@ const Hero: React.FC<HeroProps> = ({ onAnimationComplete }) => {
                 />
 
                 {/* Right side: Stacked PORTFOLIO text */}
-                <div className="text-[4rem] px-1 sm:text-[8rem] md:text-[11rem] font-black leading-[0.8]  flex flex-col uppercase font-kaku ">
+                <div className="text-[4rem] px-1 sm:text-[6rem] md:text-[8rem] xl:text-[11rem] font-black leading-[0.8]  flex flex-col uppercase font-kaku ">
                     <p ref={textRef}>
                         Port <br /> Folio
                     </p>

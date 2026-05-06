@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-
 import Footer from "./components/Footer";
-
 import { Syne } from 'next/font/google'
 import { LenisProvider } from "@/lenis/LenisScroll";
-import DeveloperDrawer from "./components/Developer";
+
 
 const syne = Syne({
   subsets: ['latin'],
@@ -38,11 +36,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${kaku.variable}  ${syne.variable} ${Neulis_Neue.variable} h-full antialiased`}
+      className={`${kaku.variable}  ${syne.variable} ${Neulis_Neue.variable} h-full antialiased `}
     >
       <body className="min-h-full  flex flex-col">
         <LenisProvider>
-          <main>
+          <main className="overflow-hidden">
             {children}
             <Footer />
           </main>

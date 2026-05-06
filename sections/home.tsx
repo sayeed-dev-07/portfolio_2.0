@@ -1,6 +1,6 @@
 'use client';
 import Navbar from '@/app/components/Navbar';
-import React, { useCallback, useState, useRef } from 'react';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import Hero from './hero';
 import Image from 'next/image';
 import gsap from 'gsap';
@@ -12,7 +12,11 @@ gsap.config({ force3D: true });
 
 const Home = () => {
     const [heroAnimationDone, setHeroAnimationDone] = useState(false);
-    const containerRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement | null>(null);
+
+
+
+
 
     const handleHeroAnimationDone = useCallback(() => {
         setHeroAnimationDone(true);
@@ -20,12 +24,13 @@ const Home = () => {
 
     useGSAP(() => {
         if (heroAnimationDone) {
+
+
             // 1. Initial Illustration Pop-in & Float
             gsap.fromTo('.illustration',
                 {
                     scale: 0.5,
                     autoAlpha: 0,
-                    rotation: 0
                 },
                 {
                     scale: 1,
@@ -81,8 +86,9 @@ const Home = () => {
 
             {/* Illustration 1 */}
             <div className='illustration invisible opacity-0 absolute z-5 top-[20%] right-[5%]'>
-                <Image alt='img' src='/images/illu1.webp' height={200} width={200} className='h-auto w-[150px] sm:w-[180px] md:w-[250px]' />
+                <Image alt='img' src='/images/illu1.webp' height={200} width={200} className={`h-auto w-[150px] sm:w-[180px] md:w-[250px]`} />
             </div>
+
 
             {/* Illustration 2 */}
             <div className='illustration invisible z-5 opacity-0 absolute bottom-[30%] left-[5%]'>
@@ -90,7 +96,7 @@ const Home = () => {
             </div>
 
             {/* Scroll Indicator built with Tailwind */}
-            <div className='scroll-indicator invisible opacity-0 absolute bottom-4 sm:bottom-10 left-[10%]  -translate-x-1/2 flex flex-col items-center gap-2 z-20'>
+            <div className='scroll-indicator invisible opacity-0 absolute bottom-4 sm:bottom-10 left-[10%] will-change-transform  -translate-x-1/2 flex flex-col items-center gap-2 z-20'>
                 <span className='text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-black'>
                     Scroll
                 </span>

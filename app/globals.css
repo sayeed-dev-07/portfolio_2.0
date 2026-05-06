@@ -21,14 +21,14 @@
 }
 
 ::selection {
-  background-color: #ffffff;
-  color: #000000;
+  background-color: #000;
+  color: #fff;
 }
 
 /* For older Firefox browsers */
 ::-moz-selection {
-  background-color: #ffffff;
-  color: #000000;
+  background-color: #000;
+  color: #fff;
 }
 
 @utility max-w-container {
