@@ -31,7 +31,7 @@ export const projectData: ProjectType[] = [
         ],
         live: 'https://anime-vault-nextjs-ts.vercel.app/',
         img: '/projectImg/anisearch.PNG',
-        bg: 'bg-[#fe9066]', // Added background color
+        bg: 'bg-[#e3f2ff]', // Added background color
     },
     {
         id: 2,
@@ -39,7 +39,7 @@ export const projectData: ProjectType[] = [
         tech: ['React', 'Next.js', 'GSAP', 'Framer Motion', 'TypeScript'],
         live: 'https://sellora-theta.vercel.app/',
         img: '/projectImg/sellora.PNG',
-        bg: 'bg-[#e3f2ff]',
+        bg: 'bg-[#fe9066]',
     },
 
     {

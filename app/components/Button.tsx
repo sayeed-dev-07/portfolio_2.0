@@ -48,7 +48,7 @@ const DetailsButton: React.FC<DetailsButtonProps> = ({ text = 'Live' }) => {
             ref={buttonRef}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className="group cursor-pointer w-fit relative inline-flex items-center gap-3 sm:gap-4 md:gap-6 px-5 py-2.5 sm:px-6 md:px-6.5 md:py-2.5 bg-white text-black font-semibold border-2 border-black 
+            className="group cursor-pointer w-fit relative inline-flex items-center gap-3 sm:gap-4 md:gap-6 px-5 py-2.5 sm:px-6 md:px-6.5 md:py-2.5 bg-[#FFFAF0] text-black  font-semibold border-2 border-black 
             /* 1. Added 4px and 6px X-offsets to the shadow */
             shadow-[4px_4px_0_#000] md:shadow-[6px_6px_0_#000] 
             hover:shadow-none 
@@ -60,7 +60,7 @@ const DetailsButton: React.FC<DetailsButtonProps> = ({ text = 'Live' }) => {
         >
             <span className="button-text text-base sm:text-lg lg:text-xl inline-block">{text}</span>
 
-            <div className="arrow-circle flex items-center justify-center h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 lg:h-14 lg:w-14 bg-[#FFFF64] rounded-full border border-black shadow-inner shrink-0">
+            <div className="arrow-circle flex items-center justify-center h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12  bg-[#FFFF64] rounded-full border border-black shadow-inner shrink-0">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"

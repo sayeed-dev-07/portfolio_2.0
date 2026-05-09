@@ -12,6 +12,7 @@ import { useGSAP } from '@gsap/react';
 
 // Assuming ProjectType is exported from your data file
 import { ProjectType } from '@/public/data/projectData';
+import StickerAnimation from './StickerAnimation';
 
 gsap.config({
     force3D: true
@@ -45,7 +46,7 @@ const ProjectCard = ({ project, index, className = '' }: ProjectCardProps) => {
                 ease: "customCurve",
                 scrollTrigger: {
                     trigger: cardRef.current,
-                    start: "top 85%",
+                    start: "top 75%",
                     pinnedContainer: ".projectContainer",
                 }
             }
@@ -57,8 +58,8 @@ const ProjectCard = ({ project, index, className = '' }: ProjectCardProps) => {
             ref={cardRef}
             className={`
             ${className} 
-            ${project.bg} /* Reverted back to using the data's background color */
-            border-b-2 md:border-b-0 md:border-l-2 h-auto  will-change-transform 
+            ${project.bg} 
+            border-b-2 md:border-b-0 h-auto will-change-transform 
             border-t-2 
             [--tab-size:3rem] md:[--tab-size:4rem]
             
@@ -73,37 +74,27 @@ const ProjectCard = ({ project, index, className = '' }: ProjectCardProps) => {
                 '--dynamic-offset': `calc(${index} * var(--tab-size))`
             } as React.CSSProperties}
         >
-            {/* Flex row is used for ALL screen sizes so the tab is always on the right */}
             <div className='flex flex-row h-full w-full relative'>
                 {/* sticker  */}
-                <div
-                    className="absolute top-[10%] right-[2%] z-40 aspect-square w-[25vw]  -translate-x-[15vw] -translate-y-[8vh]  sm:top-[20%] sm:w-[20vw] md:w-[15vw] lg:w-[10vw]"
-                >
-                    <Image src="/images/illu6.webp" alt="projectIcon" fill className="object-contain" />
-                </div>
-                <div
-                    className="absolute md:bottom-2 -bottom-[10%] right-[2%] z-40 aspect-square   -translate-x-[15vw] -translate-y-[8vh]    sm:w-[10vw] w-[15vw] md:w-[5vw]"
-                >
-                    <Image src="/images/illu2.webp" alt="projectIcon" fill className="object-contain" />
-                </div>
+                <StickerAnimation imgLink='/images/illu6.webp' style='absolute top-[10%] right-[2%] z-40 aspect-square w-[25vw] -translate-x-[15vw] -translate-y-[8vh] sm:top-[20%] sm:w-[20vw] md:w-[15vw] lg:w-[10vw] scale-50 opacity-0 pointer-events-none' />
+                <StickerAnimation imgLink='/images/illu2.webp' style='absolute md:bottom-2 -bottom-[10%] right-[2%] z-40 aspect-square -translate-x-[15vw] -translate-y-[8vh] sm:w-[10vw] w-[15vw] md:w-[5vw] scale-50 opacity-0 pointer-events-none' />
 
                 {/* MAIN CONTENT AREA */}
-                <div className="flex-1 py-10 flex flex-col justify-center max-w-container relative z-50 p-2.5 md:p-12 xl:p-16 overflow-hidden">
-                    <h3 className="text-3xl md:text-6xl font-bold mb-3 md:mb-6 font-kaku shrink-0 text-black">
+                {/* Changed overflow-hidden to overflow-y-auto to allow scrolling on tiny screens */}
+                <div className="flex-1 py-6 md:py-8 flex flex-col justify-center max-w-container relative z-50 p-4 md:px-10 xl:px-16 overflow-y-auto overflow-x-hidden">
+
+                    <h3 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-3 md:mb-5 font-futura shrink-0 text-black">
                         {project.name}
                     </h3>
 
-                    {/* Tech stack tags */}
-
-                    <div className="mb-6 md:mb-10 max-w-xl flex flex-wrap gap-3 shrink-0">
+                    {/* Tech stack tags - Reduced bottom margin to save space */}
+                    <div className="mb-4 md:mb-6 max-w-xl flex flex-wrap gap-2 shrink-0">
                         {project.tech.map((techItem, i) => {
-
                             const tilt = i % 2 === 0 ? '-rotate-2' : 'rotate-2';
-
                             return (
                                 <span
                                     key={i}
-                                    className={`px-3 py-1.5 text-xs md:text-sm font-bold uppercase tracking-wider bg-[#fffaf0] text-black border-2 border-black ${tilt} hover:rotate-0 hover:scale-105 transition-all duration-200 cursor-default`}
+                                    className={`px-3 py-1 text-xs md:text-sm font-bold uppercase tracking-wider bg-[#fffaf0] text-black border-2 border-black ${tilt} hover:rotate-0 hover:scale-105 transition-all duration-200 cursor-default`}
                                 >
                                     {techItem}
                                 </span>
@@ -111,9 +102,11 @@ const ProjectCard = ({ project, index, className = '' }: ProjectCardProps) => {
                         })}
                     </div>
 
+                    {/* IMAGE CONTAINER */}
+                    {/* Replaced fixed h-[50vh] with flex-1 and min/max heights. Removed shrink-0 */}
                     <div
                         ref={imageContainerRef}
-                        className="w-full max-w-2xl h-[30vh] md:h-[50vh] bg-black/5 mb-6 md:mb-8 flex items-center justify-center overflow-hidden border  shadow-xl relative shrink-0"
+                        className="w-full max-w-2xl relative flex-1 sm:min-h-[340px] min-h-[220px] max-h-[30vh] md:max-h-[45vh] bg-black/5 mb-4 md:mb-6 flex items-center justify-center overflow-hidden border shadow-xl"
                     >
                         <Image
                             alt={`${project.name} preview`}
@@ -138,7 +131,7 @@ const ProjectCard = ({ project, index, className = '' }: ProjectCardProps) => {
                 </div>
 
                 {/* THE TAB SECTION */}
-                <div className="w-[var(--tab-size)] h-auto border-l-2  flex items-center justify-center shrink-0 bg-black/5 text-black">
+                <div className="w-[var(--tab-size)] h-auto border-l-2 flex items-center justify-center shrink-0 bg-black/5 text-black">
                     <span className="text-lg md:text-2xl font-bold tracking-widest uppercase [writing-mode:vertical-rl]">
                         {project.name}
                     </span>

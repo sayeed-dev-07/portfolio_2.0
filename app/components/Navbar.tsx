@@ -64,12 +64,11 @@ const Navbar = ({ isHeroAnimationDone }: NavbarProps) => {
             const { isDesktop, isMobile } = context.conditions as { isDesktop: boolean, isMobile: boolean };
 
             gsap.set(".nav-modal", { clearProps: "all", display: 'visible' });
-            gsap.set(".nav-backdrop", { clearProps: "all" }); // Reset backdrop on resize
+            gsap.set(".nav-backdrop", { clearProps: "all" });
 
             modalTl.current = gsap.timeline({ paused: true });
 
             if (isDesktop) {
-                // Animate backdrop and modal at the same time (using position parameter '0')
                 modalTl.current
                     .to(".nav-backdrop", { autoAlpha: 1, duration: 0.4, ease: "power2.out" }, 0)
                     .to(".nav-modal", {
@@ -81,13 +80,15 @@ const Navbar = ({ isHeroAnimationDone }: NavbarProps) => {
             }
 
             if (isMobile) {
-                gsap.set(".nav-modal", { autoAlpha: 0, yPercent: -100 });
+                // OPTIMIZATION: Replaced heavy yPercent translation with a lightweight scale + fade
+                gsap.set(".nav-modal", { autoAlpha: 0, scale: 0.95 });
                 modalTl.current
-                    .to(".nav-backdrop", { autoAlpha: 1, duration: 0.4, ease: "power2.out" }, 0)
+                    // Slightly faster durations on mobile to make it feel snappier
+                    .to(".nav-backdrop", { autoAlpha: 1, duration: 0.3, ease: "power2.out" }, 0)
                     .to(".nav-modal", {
                         autoAlpha: 1,
-                        yPercent: 0,
-                        duration: 0.5,
+                        scale: 1,
+                        duration: 0.4,
                         ease: "power3.out"
                     }, 0);
             }
@@ -153,9 +154,10 @@ const Navbar = ({ isHeroAnimationDone }: NavbarProps) => {
                         aria-label="Toggle Menu"
                         aria-expanded={isOpen}
                     >
-                        <span className="line-1 w-8 sm:w-10 h-1 bg-black rounded-full block transform origin-center will-change-transform" />
-                        <span className="line-2 w-8 sm:w-10 h-1 bg-black rounded-full block will-change-opacity" />
-                        <span className="line-3 w-8 sm:w-10 h-1 bg-black rounded-full block transform origin-center will-change-transform" />
+                        {/* OPTIMIZATION: Removed will-change classes to free up mobile memory */}
+                        <span className="line-1 w-8 sm:w-10 h-1 bg-black rounded-full block transform origin-center" />
+                        <span className="line-2 w-8 sm:w-10 h-1 bg-black rounded-full block" />
+                        <span className="line-3 w-8 sm:w-10 h-1 bg-black rounded-full block transform origin-center" />
                     </button>
                 </div>
             </div>
@@ -167,9 +169,9 @@ const Navbar = ({ isHeroAnimationDone }: NavbarProps) => {
                 aria-label="Toggle Menu Floating"
                 aria-expanded={isOpen}
             >
-                <span className="line-1 w-8 sm:w-10 h-1 bg-black rounded-full block transform origin-center will-change-transform" />
-                <span className="line-2 w-8 sm:w-10 h-1 bg-black rounded-full block will-change-opacity" />
-                <span className="line-3 w-8 sm:w-10 h-1 bg-black rounded-full block transform origin-center will-change-transform" />
+                <span className="line-1 w-8 sm:w-10 h-1 bg-black rounded-full block transform origin-center" />
+                <span className="line-2 w-8 sm:w-10 h-1 bg-black rounded-full block" />
+                <span className="line-3 w-8 sm:w-10 h-1 bg-black rounded-full block transform origin-center" />
             </button>
 
             {/* --- MODAL OVERLAY --- */}
@@ -178,11 +180,11 @@ const Navbar = ({ isHeroAnimationDone }: NavbarProps) => {
                 {/* BACKDROP BLUR ELEMENT */}
                 <div
                     className="nav-backdrop absolute inset-0 bg-black/10 backdrop-blur-sm invisible opacity-0"
-                    onClick={() => setIsOpen(false)} // Clicking the blur closes the modal
+                    onClick={() => setIsOpen(false)}
                 />
 
                 {/* MODAL BOX */}
-                <div className="nav-modal relative invisible opacity-0 md:rotate-6 bg-white w-full h-full md:w-[750px] md:h-auto md:min-h-[450px] md:rounded-xl md:shadow-[10px_10px_0_0_#000] border-black md:border-2 flex flex-col justify-center p-8 sm:p-12 overflow-y-auto will-change-transform">
+                <div className="nav-modal relative invisible opacity-0 md:rotate-6 bg-white w-full h-full md:w-[750px] md:h-auto md:min-h-[450px] md:rounded-xl md:shadow-[10px_10px_0_0_#000] border-black md:border-2 flex flex-col justify-center p-8 sm:p-12 overflow-y-auto">
                     <h2 className="text-center font-extrabold text-2xl mb-10 uppercase font-syne">
                         Menu
                     </h2>
@@ -203,10 +205,10 @@ const Navbar = ({ isHeroAnimationDone }: NavbarProps) => {
                                     gsap.to(e.currentTarget.querySelector('.nav-icon'), { autoAlpha: 0, x: -20, duration: 0.7, ease: 'power3.out', color: 'black' });
                                 }}
                             >
-                                <span className="nav-icon absolute left-0 opacity-0 -translate-x-5 text-2xl flex items-center justify-center will-change-transform">
+                                <span className="nav-icon absolute left-0 opacity-0 -translate-x-5 text-2xl flex items-center justify-center">
                                     <ArrowBendUpRightIcon />
                                 </span>
-                                <span className="nav-text relative text-2xl sm:text-3xl font-black uppercase tracking-wide will-change-transform">
+                                <span className="nav-text relative text-2xl sm:text-3xl font-black uppercase tracking-wide">
                                     {item.name}
                                 </span>
                             </Link>

@@ -14,15 +14,11 @@ interface HeroProps {
 }
 
 const Hero: React.FC<HeroProps> = ({ onAnimationComplete }) => {
-    // Strongly type the refs to HTMLDivElement
     const containerRef = useRef<HTMLDivElement>(null);
     const lineRef = useRef<HTMLDivElement>(null);
     const leftContentRef = useRef<HTMLDivElement>(null);
     const textRef = useRef<HTMLParagraphElement>(null);
-
-    // --> ADDED: Ref for the name content container
     const nameContentRef = useRef<HTMLDivElement>(null);
-
     const hasCompletedRef = useRef(false);
 
     useGSAP(() => {
@@ -37,10 +33,11 @@ const Hero: React.FC<HeroProps> = ({ onAnimationComplete }) => {
             splitText = new SplitText(textRef.current, {
                 type: 'words, lines',
                 mask: 'lines'
-            })
+            });
 
             const timeline = gsap.timeline({
-                defaults: { ease: 'power4.out', duration: 1.2 },
+                // Using an exponential ease for a sharper, more engineered snap
+                defaults: { ease: 'expo.out', duration: 1.4 },
                 onComplete: () => {
                     if (hasCompletedRef.current) return;
                     hasCompletedRef.current = true;
@@ -65,31 +62,38 @@ const Hero: React.FC<HeroProps> = ({ onAnimationComplete }) => {
             });
 
             timeline
-                // 1. Staggered PortFolio Text reveal overlaps with the main line
+                // 1. Staggered PortFolio Text reveal
                 .fromTo(splitText.words,
                     { yPercent: 105 },
-                    { yPercent: 0, stagger: 0.15 },
+                    { yPercent: 0, stagger: 0.1 },
+                    "-=1.0"
+                )
+
+                // 2. Left side infographic details stagger in
+                .fromTo(leftContentRef.current.children,
+                    { autoAlpha: 0, x: -15 },
+                    { autoAlpha: 1, x: 0, stagger: 0.15, duration: 1 },
+                    "-=1.2"
+                )
+
+                // 3. Technical geometric line reveal
+                .fromTo(".tech-accent-line",
+                    { scaleX: 0, transformOrigin: "right" },
+                    {
+                        scaleX: 1,
+                        duration: 1,
+                        ease: 'power3.inOut',
+                        onComplete: () => onAnimationComplete?.()
+                    },
                     "-=0.8"
                 )
-
-                // 2. Left side details stagger in (Removed onComplete from here)
-                .fromTo(leftContentRef.current.children,
-                    { autoAlpha: 0, x: 20 },
-                    { autoAlpha: 1, x: 0, stagger: 0.2, duration: 0.8 },
-                    "-=0.9"
-                )
-
-
-                .fromTo(".drawn-border",
-                    { clipPath: "inset(0% 100% 0% 0%)" },
-                    {
-                        clipPath: "inset(0% 0% 0% 0%)",
-                        duration: 0.9,
-                        ease: 'sine.inOut',
-                        onComplete: () => onAnimationComplete?.()
-                    }, '<'
-                )
-        })
+                // 4. Dot pop at the end of the line
+                .fromTo(".tech-accent-dot",
+                    { scale: 0 },
+                    { scale: 1, duration: 0.4, ease: "back.out(2)" },
+                    "-=0.3"
+                );
+        });
 
         return () => {
             isActive = false;
@@ -102,49 +106,50 @@ const Hero: React.FC<HeroProps> = ({ onAnimationComplete }) => {
 
     return (
         <div
-            className="w-full h-full flex items-end justify-end max-w-container py-4"
+            className="w-full h-full flex items-end justify-end max-w-container py-4 relative"
             ref={containerRef}
         >
-            <div className="flex font-neulis items-stretch gap-6 md:gap-8 sm:flex-row flex-col">
+            <div className="flex font-neulis items-stretch gap-6 md:gap-12 sm:flex-row flex-col w-full justify-end">
 
-                {/* Left side: Personal Details */}
+                {/* Left side: Professional Infographic Details */}
                 <div
                     ref={leftContentRef}
-                    className="flex flex-col justify-end text-right pb-3 md:pb-5"
+                    className="flex flex-col justify-end text-right pb-3 md:pb-6"
                 >
+                    <div ref={nameContentRef} className="relative opacity-0 inline-block ml-auto pb-3">
+                        <p className="text-xl md:text-2xl font-bold tracking-tight text-black">Sayeed Shorif</p>
 
-                    <div ref={nameContentRef} className="relative inline-block ml-auto pb-2">
-                        <p className="text-lg md:text-xl font-bold">Sayeed Shorif</p>
-
-                        {/* --> ADDED: SVG hand-drawn line, positioned absolutely below name */}
-                        <div className="drawn-border absolute bottom-0 right-0 h-[6px] w-[95%] -translate-y-1">
-                            {/* Jagged, sketch path line design */}
-                            <svg
-                                viewBox="0 0 250 10"
-                                preserveAspectRatio="none"
-                                className="w-full h-full fill-none stroke-[#e26d5c] stroke-[4px] stroke-round"
-                            >
-                                <path d="M5,5 C20,2 35,8 50,5 C65,2 80,8 95,5 C110,2 125,8 140,5 C155,2 170,8 185,5 C200,2 215,8 230,5 C240,2 248,8 250,5" />
-                            </svg>
+                        {/* Sleek, professional geometric accent line replacing the sketch */}
+                        <div className="absolute bottom-0 right-0 h-[2px] w-[95%] bg-[#e26d5c] tech-accent-line flex items-center justify-start flex-row-reverse">
+                            <div className="w-1.5 h-1.5 bg-[#e26d5c] tech-accent-dot translate-x-[50%]" />
                         </div>
                     </div>
 
-                    <div className="mt-3 md:mt-4 text-sm md:text-base text-gray-600">
+                    <div className="mt-4 md:mt-5 text-sm md:text-base text-gray-600 font-medium tracking-wide flex flex-col items-end border-r-2 border-black/10 pr-4">
                         <p>Web Developer</p>
-                        <p>& Web Designer</p>
+                        <p className="text-gray-400">&</p>
+                        <p>Web Designer</p>
                     </div>
 
-                    <p className="mt-4 md:mt-6 text-sm md:text-base text-gray-500">2026</p>
+                    <div className="mt-6 md:mt-8 flex justify-end">
+                        <p className="text-xs font-mono font-bold tracking-widest text-white bg-foreground px-3 py-1 uppercase">
+                            Est. 2026
+                        </p>
+                    </div>
                 </div>
 
-                {/* Vertical Divider Line */}
+                {/* Technical Vertical Divider */}
                 <div
                     ref={lineRef}
-                    className="h-[2px] w-full sm:h-auto sm:w-[2px] bg-black shrink-0  my-2 md:my-3"
-                />
+                    className="h-[2px] w-full sm:h-auto sm:w-[3px] bg-black shrink-0 my-2 md:my-4 relative"
+                >
+                    {/* Crosshair accents on the divider line to enhance the technical look */}
+                    <div className="hidden sm:block absolute top-0 left-1/2 -translate-x-1/2 w-4 h-[1px] bg-black" />
+                    <div className="hidden sm:block absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-[1px] bg-black" />
+                </div>
 
                 {/* Right side: Stacked PORTFOLIO text */}
-                <div className="text-[4rem] px-1 sm:text-[6rem] md:text-[8rem] xl:text-[11rem] font-black leading-[0.8]  flex flex-col uppercase font-kaku ">
+                <div className="text-[4.5rem] px-1 sm:text-[6rem] md:text-[8rem] xl:text-[11rem] font-black flex flex-col uppercase font-futura leading-none">
                     <p ref={textRef}>
                         Port <br /> Folio
                     </p>

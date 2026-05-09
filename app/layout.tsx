@@ -17,6 +17,10 @@ const kaku = localFont({
   variable: '--font-kaku',
   display: 'swap',
 });
+const futura = localFont({
+  variable: "--font-futura",
+  src: './fonts/Futura-Bold.woff2'
+});
 const Neulis_Neue = localFont({
   src: './fonts/Neulis_Neue.woff2',
   variable: '--font-neulis',
@@ -36,9 +40,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${kaku.variable}  ${syne.variable} ${Neulis_Neue.variable} h-full antialiased `}
+      className={`${kaku.variable}  ${syne.variable} ${Neulis_Neue.variable} ${futura.variable} h-full antialiased `}
     >
-      <body className="min-h-full  flex flex-col">
+      <body className="min-h-full  flex flex-col" suppressHydrationWarning>
         <LenisProvider>
           <main className="overflow-hidden">
             {children}

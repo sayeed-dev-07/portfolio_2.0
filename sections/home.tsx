@@ -15,14 +15,15 @@ const Home = () => {
     const containerRef = useRef<HTMLDivElement | null>(null);
 
 
-
-
-
     const handleHeroAnimationDone = useCallback(() => {
         setHeroAnimationDone(true);
     }, []);
 
     useGSAP(() => {
+
+        gsap.set(containerRef.current, {
+            autoAlpha: 1
+        })
         if (heroAnimationDone) {
 
 
@@ -78,7 +79,7 @@ const Home = () => {
     });
 
     return (
-        <div ref={containerRef} className='h-svh relative w-full flex flex-col overflow-hidden'>
+        <div ref={containerRef} className='h-svh relative w-full flex flex-col overflow-hidden invisible'>
             <Navbar isHeroAnimationDone={heroAnimationDone} />
             <div className='relative z-10 h-full'>
                 <Hero onAnimationComplete={handleHeroAnimationDone} />
@@ -96,7 +97,7 @@ const Home = () => {
             </div>
 
             {/* Scroll Indicator built with Tailwind */}
-            <div className='scroll-indicator invisible opacity-0 absolute bottom-4 sm:bottom-10 left-[10%] will-change-transform  -translate-x-1/2 flex flex-col items-center gap-2 z-20'>
+            <div className='scroll-indicator invisible opacity-0 absolute bottom-8 sm:bottom-10 -right-[2%] sm:left-[10%] will-change-transform   -translate-x-1/2 flex flex-col items-center gap-2 z-20'>
                 <span className='text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-black'>
                     Scroll
                 </span>

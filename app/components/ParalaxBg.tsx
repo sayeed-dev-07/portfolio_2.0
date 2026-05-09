@@ -11,14 +11,14 @@ const ParallaxImageSection = () => {
             */}
             <div className="fixed inset-0 w-full h-full -z-10">
                 <Image
-                    src="https://i.pinimg.com/1200x/64/b8/18/64b8180aa1254f07c6b977f11fb6fd5b.jpg"
+                    src="/paralax.webp"
                     alt="Section Divider Background"
                     fill
                     sizes="100vw"
                     className="object-cover object-center"
-                    priority={false} // Set to true ONLY if this is visible immediately on page load
+                    priority={false}
                 />
-                
+
                 {/* Optional: A subtle dark overlay just in case you want to overlay text later */}
                 <div className="absolute inset-0 bg-black/20" aria-hidden="true" />
             </div>

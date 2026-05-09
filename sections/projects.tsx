@@ -49,7 +49,7 @@ const Projects = () => {
                 scrollTrigger: {
                     trigger: containerRef.current,
                     start: "top top",
-                    end: `+=${projectData.length * 100}%`,
+                    end: `+=${projectData.length * 70}%`,
                     scrub: 1,
                     pin: true,
                 },
@@ -63,10 +63,11 @@ const Projects = () => {
                     { yPercent: 100 },
                     { yPercent: 0, ease: "none" }
                 );
+                tl.to({}, { duration: 0.2 })
             });
         });
 
-        // MatchMedia automatically cleans up event listeners and inline styles when breakpoints change
+
     }, { scope: containerRef });
 
     return (
