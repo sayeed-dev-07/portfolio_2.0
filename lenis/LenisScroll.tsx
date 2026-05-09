@@ -36,7 +36,35 @@ export const LenisProvider = ({ children }: LenisProviderProps) => {
 
         setLenis(instance);
 
-        instance.on('scroll', ScrollTrigger.update);
+        const removeScrollListener = instance.on('scroll', ScrollTrigger.update);
+
+        let refreshFrame = 0;
+        let refreshTimeout: ReturnType<typeof setTimeout> | null = null;
+
+        const refreshScroll = () => {
+            if (refreshFrame) {
+                cancelAnimationFrame(refreshFrame);
+            }
+
+            if (refreshTimeout) {
+                clearTimeout(refreshTimeout);
+            }
+
+            refreshFrame = requestAnimationFrame(() => {
+                instance.resize();
+                ScrollTrigger.refresh();
+
+                refreshTimeout = setTimeout(() => {
+                    instance.resize();
+                    ScrollTrigger.refresh();
+                }, 250);
+            });
+        };
+
+        window.addEventListener('resize', refreshScroll);
+        window.addEventListener('orientationchange', refreshScroll);
+        window.addEventListener('pageshow', refreshScroll);
+        window.visualViewport?.addEventListener('resize', refreshScroll);
 
         // 5. Type the time parameter for GSAP ticker
         const update = (time: number) => {
@@ -45,8 +73,20 @@ export const LenisProvider = ({ children }: LenisProviderProps) => {
 
         gsap.ticker.add(update);
         gsap.ticker.lagSmoothing(0);
+        refreshScroll();
 
         return () => {
+            removeScrollListener();
+            window.removeEventListener('resize', refreshScroll);
+            window.removeEventListener('orientationchange', refreshScroll);
+            window.removeEventListener('pageshow', refreshScroll);
+            window.visualViewport?.removeEventListener('resize', refreshScroll);
+            if (refreshFrame) {
+                cancelAnimationFrame(refreshFrame);
+            }
+            if (refreshTimeout) {
+                clearTimeout(refreshTimeout);
+            }
             instance.destroy();
             gsap.ticker.remove(update);
         };

@@ -132,7 +132,7 @@ const IntroOverlay = ({ shouldPlay, onComplete }: IntroOverlayProps) => {
                 <div className="flex items-center mx-1 sm:mx-3 mt-2 overflow-hidden">
 
                     <p ref={firstTextRef} className="m-0 invisible opacity-0 whitespace-nowrap">
-                        Engineering digital aesthetics.
+                        appreciate your stopping by.
                     </p>
 
                     <p ref={secondTextRef} className="m-0 hidden invisible opacity-0 whitespace-nowrap">
