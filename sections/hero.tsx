@@ -158,9 +158,9 @@ const Hero: React.FC<HeroProps> = ({ onAnimationComplete, shouldStartAnimation =
                     <div className="hidden sm:block absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-px bg-black" />
                 </div>
 
-                
+
                 <div className="text-[4.5rem] px-1 sm:text-[6rem] md:text-[8rem] xl:text-[11rem] items-end font-black flex flex-col uppercase font-futura leading-none">
-                    
+
                     <p ref={textRef} className={shouldStartAnimation ? 'invisible' : ''}>
                         Port <br /> Folio
                     </p>

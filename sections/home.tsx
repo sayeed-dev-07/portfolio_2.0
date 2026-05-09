@@ -110,7 +110,7 @@ const Home = ({ isIntroComplete = true }: HomeProps) => {
             </div>
 
             {/* Scroll Indicator built with Tailwind */}
-            <div ref={scrollIndicatorRef} className='invisible opacity-0 absolute bottom-8 sm:bottom-10 -right-[2%] sm:left-[10%] will-change-transform   -translate-x-1/2 flex flex-col items-center gap-2 z-20'>
+            <div ref={scrollIndicatorRef} className='invisible opacity-0 absolute bottom-8 sm:bottom-10 left-[10%] will-change-transform   -translate-x-1/2 flex flex-col items-center gap-2 z-20'>
                 <span className='text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-black'>
                     Scroll
                 </span>
