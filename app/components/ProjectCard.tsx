@@ -7,7 +7,7 @@ import Image from 'next/image';
 // GSAP Imports
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { CustomEase } from 'gsap/CustomEase';
+
 import { useGSAP } from '@gsap/react';
 
 // Assuming ProjectType is exported from your data file
@@ -18,11 +18,8 @@ gsap.config({
     force3D: true
 });
 
-gsap.registerPlugin(ScrollTrigger, CustomEase, useGSAP);
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-if (typeof window !== "undefined") {
-    CustomEase.create("customCurve", "0.05, 0.71, 0.12, 0.99");
-}
 
 interface ProjectCardProps {
     project: ProjectType;
@@ -42,11 +39,11 @@ const ProjectCard = ({ project, index, className = '' }: ProjectCardProps) => {
             },
             {
                 clipPath: "inset(0% 0% 0% 0%)",
-                duration: 1.2,
-                ease: "customCurve",
+                duration: 1,
+                ease: "power3",
                 scrollTrigger: {
                     trigger: cardRef.current,
-                    start: "top 75%",
+                    start: "top 80%",
                     pinnedContainer: ".projectContainer",
                 }
             }
