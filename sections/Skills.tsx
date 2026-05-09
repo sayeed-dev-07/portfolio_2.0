@@ -113,8 +113,10 @@ const Skills = () => {
     };
 
     return (
-        <section ref={sectionRef} className="w-full px-4 sm:px-6 md:px-12 bg-[#F18961] border-b-2 border-black ">
-            <div className="max-w-container py-20">
+        <section ref={sectionRef} className="relative w-full bg-[#F18961] border-b-2 border-black overflow-hidden">
+
+
+            <div className="relative  max-w-container py-20">
 
                 {/* Section Header */}
                 <div className="mb-12 md:mb-16 flex flex-col items-center text-center">
@@ -155,7 +157,7 @@ const Skills = () => {
                                     <div className={`absolute -top-4 left-1/2 -translate-x-1/2 w-20 h-8 bg-white/70 border-2 border-black/20  backdrop-blur-sm z-30 shadow-sm`}></div>
 
                                     {/* Category Title */}
-                                    <h3 className="text-3xl md:text-4xl font-black text-black uppercase tracking-tight mb-6 font-futura border-b-4 border-black/10 pb-4 inline-block w-fit">
+                                    <h3 className="text-3xl mt-4 md:text-4xl font-black text-black uppercase tracking-tight mb-6 font-futura border-b-4 border-black/10 pb-4 inline-block w-fit">
                                         {category.title}
                                     </h3>
 

@@ -14,9 +14,10 @@ const ParallaxImageSection = () => {
                     src="/paralax.webp"
                     alt="Section Divider Background"
                     fill
+                    loading="eager"
                     sizes="100vw"
                     className="object-cover object-center"
-                    priority={false}
+
                 />
 
                 {/* Optional: A subtle dark overlay just in case you want to overlay text later */}

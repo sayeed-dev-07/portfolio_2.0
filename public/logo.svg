@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 450 180" width="100%" height="100%">
+  <!-- Main Text (Black) -->
+  <g fill="#000000">
+    <!-- S -->
+    <path d="M 0 0 H 60 V 20 H 20 V 60 H 60 V 140 H 0 V 120 H 40 V 80 H 0 Z" />
+    
+    <!-- A -->
+    <path d="M 70 0 H 130 V 140 H 110 V 80 H 90 V 140 H 70 Z M 90 20 V 60 H 110 V 20 Z" />
+    
+    <!-- Y -->
+    <path d="M 140 0 H 160 V 60 H 180 V 0 H 200 V 80 H 180 V 140 H 160 V 80 H 140 Z" />
+    
+    <!-- E -->
+    <path d="M 210 0 H 270 V 20 H 230 V 60 H 270 V 80 H 230 V 120 H 270 V 140 H 210 Z" />
+    
+    <!-- E -->
+    <path d="M 280 0 H 340 V 20 H 300 V 60 H 340 V 80 H 300 V 120 H 340 V 140 H 280 Z" />
+    
+    <!-- D (White part of the original, now Black) -->
+    <path d="M 350 0 H 410 V 60 L 390 80 V 20 H 370 V 120 H 380 V 140 H 350 Z" />
+  </g>
+
+  <!-- Accent / Exclamation Mark (Orange) -->
+  <g fill="#FF4500">
+    <!-- D (Exclamation Bar) -->
+    <path d="M 390 90 L 410 70 V 110 H 390 Z" />
+    
+    <!-- D (Exclamation Dot) -->
+    <path d="M 390 120 H 410 V 140 H 390 Z" />
+  </g>
+</svg>

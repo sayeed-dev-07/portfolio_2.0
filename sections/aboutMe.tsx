@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 
 import Image from 'next/image';
+import StickerAnimation from '@/app/components/StickerAnimation';
 
 gsap.registerPlugin(ScrollTrigger);
 gsap.config({
@@ -56,11 +57,31 @@ const AboutMe = () => {
 
     return (
         // Adjusted padding: py-12 on mobile, py-20 on larger screens
-        <section ref={containerRef} className="relative w-full py-[5%] bg-[#fe9066] flex items-center justify-center  border-b-2 border-black">
-
+        <section ref={containerRef} className="relative w-full py-[5%] bg-[#fe9066] flex items-center justify-center border-b-2 border-black overflow-hidden">
+            <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+                <div className="absolute right-0 lg:-left-8 top-40 lg:top-14 w-28 sm:w-36 md:w-48 aspect-square -rotate-12">
+                    <Image
+                        alt=""
+                        src="/images/star.png"
+                        fill
+                        className="object-contain drop-shadow-[4px_4px_0px_rgba(17,17,17,0.25)]"
+                        sizes="(max-width: 768px) 112px, 192px"
+                    />
+                </div>
+                <StickerAnimation imgLink='/images/fish.png' style='absolute right-3 top-8 w-20 sm:w-28 md:w-36 aspect-square  rotate-12' />
+                <div className="absolute bottom-4 left-[42%] hidden sm:block w-24 md:w-32 aspect-square  rotate-6">
+                    <Image
+                        alt=""
+                        src="/images/bird.svg"
+                        fill
+                        className="object-contain"
+                        sizes="128px"
+                    />
+                </div>
+            </div>
 
             {/* Adjusted gap: gap-10 on mobile, gap-16 on larger screens */}
-            <div className="max-w-container py-12 md:py-20 w-full grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center z-10">
+            <div className="relative max-w-container py-12 md:py-20 w-full grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center z-10">
 
                 {/* Left Column: Heading and Intro */}
                 <div className="flex flex-col items-start space-y-4 md:space-y-6">

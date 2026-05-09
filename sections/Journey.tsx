@@ -123,8 +123,39 @@ const Journey = () => {
     };
 
     return (
-        <section ref={sectionRef} className="w-full px-4 sm:px-6 md:px-12 bg-[#f4f1eb]  border-black ">
-            <div className="max-w-container py-20">
+        <section ref={sectionRef} className="relative w-full bg-[#f4f1eb] border-black overflow-hidden">
+            <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+                <div className="absolute left-2 top-20 w-20 sm:w-28 md:w-36 aspect-square  rotate-12">
+                    <Image
+                        alt=""
+                        src="/images/crab.png"
+                        fill
+                        className="object-contain drop-shadow-[3px_3px_0px_rgba(241,137,97,0.35)]"
+                        sizes="(max-width: 768px) 80px, 144px"
+                    />
+                </div>
+                <div className="absolute right-0 bottom-0
+                 w-24 sm:w-30 md:w-40 aspect-square -rotate-6">
+                    <Image
+                        alt=""
+                        src="/images/birdBig.png"
+                        fill
+                        className="object-contain drop-shadow-[4px_4px_0px_rgba(17,17,17,0.2)]"
+                        sizes="(max-width: 768px) 128px, 224px"
+                    />
+                </div>
+                <div className="absolute bottom-12 left-[8%] hidden md:block w-32 aspect-square opacity-30 -rotate-12">
+                    <Image
+                        alt=""
+                        src="/images/illu9.webp"
+                        fill
+                        className="object-contain"
+                        sizes="128px"
+                    />
+                </div>
+            </div>
+
+            <div className="relative z-10 max-w-container py-20">
 
                 {/* Section Header */}
                 <div className="mb-12  md:mb-16 flex flex-col items-center text-center">

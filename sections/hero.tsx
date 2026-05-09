@@ -11,29 +11,39 @@ gsap.config({ force3D: true })
 
 interface HeroProps {
     onAnimationComplete?: () => void;
+    shouldStartAnimation?: boolean;
 }
 
-const Hero: React.FC<HeroProps> = ({ onAnimationComplete }) => {
+const Hero: React.FC<HeroProps> = ({ onAnimationComplete, shouldStartAnimation = true }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const lineRef = useRef<HTMLDivElement>(null);
     const leftContentRef = useRef<HTMLDivElement>(null);
     const textRef = useRef<HTMLParagraphElement>(null);
     const nameContentRef = useRef<HTMLDivElement>(null);
+    const techAccentLineRef = useRef<HTMLDivElement>(null);
+    const techAccentDotRef = useRef<HTMLDivElement>(null);
     const hasCompletedRef = useRef(false);
 
     useGSAP(() => {
+        if (!shouldStartAnimation) {
+            return;
+        }
+
         const mm = gsap.matchMedia();
         let splitText: SplitText | null = null;
         let tl: GSAPTimeline | null = null;
         let isActive = true;
 
         document.fonts.ready.then(() => {
-            if (!isActive || !lineRef.current || !leftContentRef.current || !textRef.current || !nameContentRef.current) return;
+            if (!isActive || !lineRef.current || !leftContentRef.current || !textRef.current || !nameContentRef.current || !techAccentLineRef.current || !techAccentDotRef.current) return;
 
             splitText = new SplitText(textRef.current, {
                 type: 'words, lines',
                 mask: 'lines'
             });
+
+
+            gsap.set([textRef.current, lineRef.current, leftContentRef.current], { autoAlpha: 1 });
 
             const timeline = gsap.timeline({
                 // Using an exponential ease for a sharper, more engineered snap
@@ -76,8 +86,8 @@ const Hero: React.FC<HeroProps> = ({ onAnimationComplete }) => {
                     "-=1.2"
                 )
 
-                // 3. Technical geometric line reveal
-                .fromTo(".tech-accent-line",
+
+                .fromTo(techAccentLineRef.current,
                     { scaleX: 0, transformOrigin: "right" },
                     {
                         scaleX: 1,
@@ -87,8 +97,8 @@ const Hero: React.FC<HeroProps> = ({ onAnimationComplete }) => {
                     },
                     "-=0.8"
                 )
-                // 4. Dot pop at the end of the line
-                .fromTo(".tech-accent-dot",
+
+                .fromTo(techAccentDotRef.current,
                     { scale: 0 },
                     { scale: 1, duration: 0.4, ease: "back.out(2)" },
                     "-=0.3"
@@ -102,7 +112,7 @@ const Hero: React.FC<HeroProps> = ({ onAnimationComplete }) => {
             splitText?.revert();
         };
 
-    }, { scope: containerRef });
+    }, { scope: containerRef, dependencies: [shouldStartAnimation, onAnimationComplete] });
 
     return (
         <div
@@ -111,17 +121,17 @@ const Hero: React.FC<HeroProps> = ({ onAnimationComplete }) => {
         >
             <div className="flex font-neulis items-stretch gap-6 md:gap-12 sm:flex-row flex-col w-full justify-end">
 
-                {/* Left side: Professional Infographic Details */}
                 <div
                     ref={leftContentRef}
-                    className="flex flex-col justify-end text-right pb-3 md:pb-6"
+                    className={`flex flex-col justify-end text-right pb-3 md:pb-6 ${shouldStartAnimation ? 'invisible' : ''}`}
                 >
-                    <div ref={nameContentRef} className="relative opacity-0 inline-block ml-auto pb-3">
+
+                    <div ref={nameContentRef} className="relative inline-block ml-auto pb-3">
                         <p className="text-xl md:text-2xl font-bold tracking-tight text-black">Sayeed Shorif</p>
 
                         {/* Sleek, professional geometric accent line replacing the sketch */}
-                        <div className="absolute bottom-0 right-0 h-[2px] w-[95%] bg-[#e26d5c] tech-accent-line flex items-center justify-start flex-row-reverse">
-                            <div className="w-1.5 h-1.5 bg-[#e26d5c] tech-accent-dot translate-x-[50%]" />
+                        <div ref={techAccentLineRef} className="absolute bottom-0 right-0 h-[2px] w-[95%] bg-[#e26d5c] flex items-center justify-start flex-row-reverse">
+                            <div ref={techAccentDotRef} className="w-1.5 h-1.5 bg-[#e26d5c] translate-x-[50%]" />
                         </div>
                     </div>
 
@@ -141,7 +151,7 @@ const Hero: React.FC<HeroProps> = ({ onAnimationComplete }) => {
                 {/* Technical Vertical Divider */}
                 <div
                     ref={lineRef}
-                    className="h-[2px] w-full sm:h-auto sm:w-[3px] bg-black shrink-0 my-2 md:my-4 relative"
+                    className={`h-[2px] w-full sm:h-auto sm:w-[3px] bg-black shrink-0 my-2 md:my-4 relative ${shouldStartAnimation ? 'invisible' : ''}`}
                 >
                     {/* Crosshair accents on the divider line to enhance the technical look */}
                     <div className="hidden sm:block absolute top-0 left-1/2 -translate-x-1/2 w-4 h-[1px] bg-black" />
@@ -150,7 +160,8 @@ const Hero: React.FC<HeroProps> = ({ onAnimationComplete }) => {
 
                 {/* Right side: Stacked PORTFOLIO text */}
                 <div className="text-[4.5rem] px-1 sm:text-[6rem] md:text-[8rem] xl:text-[11rem] font-black flex flex-col uppercase font-futura leading-none">
-                    <p ref={textRef}>
+                    {/* 3. FIX FOUC: Hide the text paragraph before SplitText processes it */}
+                    <p ref={textRef} className={shouldStartAnimation ? 'invisible' : ''}>
                         Port <br /> Folio
                     </p>
                 </div>

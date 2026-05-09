@@ -2,13 +2,14 @@
 "use client";
 
 import Image from 'next/image';
-import React, { useState, useRef } from 'react';
+import React, { MouseEvent, useState, useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { navbarData } from '@/public/data/NavbarData';
 import Link from 'next/link';
 import { ArrowBendUpRightIcon } from '@phosphor-icons/react';
+import { useLenis } from '@/lenis/LenisScroll';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 gsap.config({ force3D: true });
@@ -19,6 +20,7 @@ interface NavbarProps {
 
 const Navbar = ({ isHeroAnimationDone }: NavbarProps) => {
     const data = navbarData;
+    const lenis = useLenis();
     const navbarRef = useRef<HTMLDivElement | null>(null);
     const hamburgerTl = useRef<GSAPTimeline | null>(null);
     const modalTl = useRef<GSAPTimeline | null>(null);
@@ -131,6 +133,32 @@ const Navbar = ({ isHeroAnimationDone }: NavbarProps) => {
         }
     }, { scope: navbarRef, dependencies: [isOpen] });
 
+    const handleNavClick = (event: MouseEvent<HTMLAnchorElement>, link: string) => {
+        setIsOpen(false);
+
+        const targetHash = link === '#' ? '#home' : link;
+
+        if (!targetHash.startsWith('#')) return;
+
+        event.preventDefault();
+
+        const target = document.querySelector<HTMLElement>(targetHash);
+        if (!target) return;
+
+        window.history.pushState(null, '', targetHash);
+
+        if (lenis) {
+            lenis.scrollTo(target, {
+                offset: 0,
+                duration: 1.35,
+                lock: true,
+            });
+            return;
+        }
+
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
     return (
         <div ref={navbarRef} className='bg-white border-b-2 border-black relative z-50'>
             {/* --- HEADER BAR --- */}
@@ -142,7 +170,7 @@ const Navbar = ({ isHeroAnimationDone }: NavbarProps) => {
                         alt={data.logo.alt}
                         width={200}
                         height={50}
-                        className='w-auto h-[60px] md:h-[70px] object-contain'
+                        className='w-auto h-[40px] sm:h-[45px] md:h-[50px] lg:h-[60px] object-contain'
                     />
                 </Link>
 
@@ -165,7 +193,7 @@ const Navbar = ({ isHeroAnimationDone }: NavbarProps) => {
             {/* --- FLOATING HAMBURGER TOGGLE --- */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="floating-hamburger fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[70] p-4 sm:p-6 flex flex-col justify-center items-center bg-[#e3e3ff] rounded-full gap-1.5 cursor-pointer focus:outline-none border-black border-2 tap-highlight-transparent shadow-[4px_4px_0_0_#000] hover:translate-y-1 hover:translate-x-1 hover:shadow-none transition-all duration-300 invisible"
+                className="floating-hamburger  fixed bottom-3 right-3 md:bottom-7 md:right-7 z-[70] p-4 sm:p-6 flex flex-col justify-center items-center bg-[#e3e3ff]  gap-1.5 cursor-pointer focus:outline-none border-black border-2 tap-highlight-transparent shadow-[4px_4px_0_0_#000] hover:translate-y-1 hover:translate-x-1 hover:shadow-none transition-all duration-300 invisible"
                 aria-label="Toggle Menu Floating"
                 aria-expanded={isOpen}
             >
@@ -184,7 +212,7 @@ const Navbar = ({ isHeroAnimationDone }: NavbarProps) => {
                 />
 
                 {/* MODAL BOX */}
-                <div className="nav-modal relative invisible opacity-0 md:rotate-6 bg-white w-full h-full md:w-[750px] md:h-auto md:min-h-[450px] md:rounded-xl md:shadow-[10px_10px_0_0_#000] border-black md:border-2 flex flex-col justify-center p-8 sm:p-12 overflow-y-auto">
+                <div className="nav-modal relative invisible opacity-0 md:rotate-6 bg-white w-full h-full md:w-[750px] md:h-auto md:min-h-[450px]  md:shadow-[10px_10px_0_0_#000] border-black md:border-2 flex flex-col justify-center p-8 sm:p-12 overflow-y-auto">
                     <h2 className="text-center font-extrabold text-2xl mb-10 uppercase font-syne">
                         Menu
                     </h2>
@@ -194,7 +222,9 @@ const Navbar = ({ isHeroAnimationDone }: NavbarProps) => {
                             <Link
                                 key={item.id}
                                 href={item.link}
-                                onClick={() => setIsOpen(false)}
+                                scroll={false}
+                                target='_blank'
+                                onClick={(event) => handleNavClick(event, item.link)}
                                 className="group relative flex items-center pb-4 border-b border-black border-dashed overflow-hidden"
                                 onMouseEnter={(e) => {
                                     gsap.to(e.currentTarget.querySelector('.nav-text'), { x: 40, duration: 0.7, ease: 'power3.out', color: 'crimson' });
