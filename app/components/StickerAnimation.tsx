@@ -20,7 +20,7 @@ const StickerAnimation = ({ style, imgLink, alt = 'stickerImg' }: { style: strin
             ease: "back.out(1.3)",
             scrollTrigger: {
                 trigger: stickerRef.current,
-                start: "top 90%",
+                start: "top 95%",
             },
         });
     }, { scope: stickerRef })

@@ -104,9 +104,10 @@ const ProjectCard = ({ project, index, className = '' }: ProjectCardProps) => {
 
                     {/* IMAGE CONTAINER */}
                     {/* Replaced fixed h-[50vh] with flex-1 and min/max heights. Removed shrink-0 */}
+                    {/* IMAGE CONTAINER */}
                     <div
                         ref={imageContainerRef}
-                        className="w-full max-w-2xl relative flex-1 sm:min-h-[340px] min-h-[220px] max-h-[30vh] md:max-h-[45vh] bg-black/5 mb-4 md:mb-6 flex items-center justify-center overflow-hidden border shadow-xl"
+                        className="w-full max-w-2xl relative flex-1 min-h-[180px] md:min-h-[200px] max-h-[35vh] md:max-h-[45vh] bg-black/5 mb-4 md:mb-6 flex items-center justify-center overflow-hidden border shadow-xl"
                     >
                         <Image
                             alt={`${project.name} preview`}

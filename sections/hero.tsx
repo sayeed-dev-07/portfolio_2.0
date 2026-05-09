@@ -154,13 +154,13 @@ const Hero: React.FC<HeroProps> = ({ onAnimationComplete, shouldStartAnimation =
                     className={`h-[2px] w-full sm:h-auto sm:w-[3px] bg-black shrink-0 my-2 md:my-4 relative ${shouldStartAnimation ? 'invisible' : ''}`}
                 >
                     {/* Crosshair accents on the divider line to enhance the technical look */}
-                    <div className="hidden sm:block absolute top-0 left-1/2 -translate-x-1/2 w-4 h-[1px] bg-black" />
-                    <div className="hidden sm:block absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-[1px] bg-black" />
+                    <div className="hidden sm:block absolute top-0 left-1/2 -translate-x-1/2 w-4 h-px bg-black" />
+                    <div className="hidden sm:block absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-px bg-black" />
                 </div>
 
-                {/* Right side: Stacked PORTFOLIO text */}
-                <div className="text-[4.5rem] px-1 sm:text-[6rem] md:text-[8rem] xl:text-[11rem] font-black flex flex-col uppercase font-futura leading-none">
-                    {/* 3. FIX FOUC: Hide the text paragraph before SplitText processes it */}
+                
+                <div className="text-[4.5rem] px-1 sm:text-[6rem] md:text-[8rem] xl:text-[11rem] items-end font-black flex flex-col uppercase font-futura leading-none">
+                    
                     <p ref={textRef} className={shouldStartAnimation ? 'invisible' : ''}>
                         Port <br /> Folio
                     </p>
