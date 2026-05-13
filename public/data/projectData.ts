@@ -12,7 +12,7 @@ export const projectData: ProjectType[] = [
         id: 3,
         name: 'MSR Portfolio',
         tech: ['React', 'Next.js', 'GSAP', 'Lenis'],
-        live: 'https://msrcreation-portfolio-template.vercel.app/',
+        live: 'https://portfolio-gules-chi-w96bn9yl4m.vercel.app/',
         img: '/projectImg/msrImg.PNG',
         bg: 'bg-[#f3ffe3]',
     },
