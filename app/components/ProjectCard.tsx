@@ -40,7 +40,7 @@ const ProjectCard = ({ project, index, className = '' }: ProjectCardProps) => {
             {
                 clipPath: "inset(0% 0% 0% 0%)",
                 duration: 1,
-                ease: "power3",
+                ease: "power3.out",
                 scrollTrigger: {
                     trigger: cardRef.current,
                     start: "top 80%",

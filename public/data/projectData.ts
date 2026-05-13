@@ -31,7 +31,7 @@ export const projectData: ProjectType[] = [
         ],
         live: 'https://anime-vault-nextjs-ts.vercel.app/',
         img: '/projectImg/anisearch.PNG',
-        bg: 'bg-[#e3f2ff]', // Added background color
+        bg: 'bg-[#e3f2ff]', 
     },
     {
         id: 2,
